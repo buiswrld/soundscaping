@@ -1,6 +1,7 @@
 from IPython.display import display, HTML
 from pandas import DataFrame, Series
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 def show(df: DataFrame) -> None:
     if isinstance(df, Series):
@@ -15,4 +16,25 @@ def plot(df: DataFrame, x_col: str, y_col: str, reverse = False) -> None:
     plt.title(f'{x_col} vs {y_col}')
     if reverse:
         plt.gca().invert_yaxis()
+    plt.show()
+
+def plot_bar(df: DataFrame, column: str) -> None:
+    value_counts = df[column].value_counts().sort_index()
+    plt.figure(figsize=(8, 4))
+    value_counts.plot(kind='bar', color='skyblue')
+    plt.title(f'Frequencies of {column}')
+    plt.xlabel(column)
+    plt.ylabel("Frequency")
+    plt.show()
+
+def plot_density(df: DataFrame, column: str, scaled=True) -> None:
+    plt.figure(figsize=(8, 4))
+    sns.kdeplot(df[column], fill=True, color='skyblue')
+    plt.title(f'Frequency Distribution of {column}')
+    plt.xlabel(column)
+    plt.ylabel('Density')
+    if not scaled:
+        plt.xlim(0, df[column].max()+10)
+    else:
+        plt.xlim(0, 100) 
     plt.show()

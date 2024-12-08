@@ -14,7 +14,9 @@ def get_rows(df: pd.DataFrame, i: int, j: int = None) -> pd.DataFrame:
 def get_col(df: pd.DataFrame, col: str) -> pd.DataFrame:
     return df[col]
 
-def filter(df: pd.DataFrame, column: str, value) -> pd.DataFrame:
+def filter(df: pd.DataFrame, column: str, value, contains = False) -> pd.DataFrame:
+    if contains:
+        return df[df[column].str.contains(value)]
     return df[df[column] == value]
 
 def count_occurrences(df: pd.DataFrame, column: str, value) -> int:
