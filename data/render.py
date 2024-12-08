@@ -2,6 +2,7 @@ from IPython.display import display, HTML
 from pandas import DataFrame, Series
 import matplotlib.pyplot as plt
 import seaborn as sns
+import pandas as pd
 
 def show(df: DataFrame) -> None:
     if isinstance(df, Series):
@@ -37,4 +38,16 @@ def plot_density(df: DataFrame, column: str, scaled=True) -> None:
         plt.xlim(0, df[column].max()+10)
     else:
         plt.xlim(0, 100) 
+    plt.show()
+
+def plot_key_frequency(data_dict: dict, title: str) -> None:
+    key_counts = pd.Series({key: len(df) for key, df in data_dict.items()})
+    key_counts = key_counts.sort_index()
+    
+    plt.figure(figsize=(8, 4))
+    key_counts.plot(kind='bar', color='skyblue')
+    plt.title(f'Frequencies of {title}')
+    plt.xlabel(title)
+    plt.ylabel('Frequency')
+    plt.xticks(rotation=45)
     plt.show()
