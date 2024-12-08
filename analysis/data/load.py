@@ -4,6 +4,7 @@ df_aoty = pd.read_csv("data/raw/aoty.csv")
 df_top100s = pd.read_csv("data/raw/top100s.csv")
 
 df_aoty.rename(columns={'id': 'rank'}, inplace=True)
+df_top100s.insert(0, 'rank', range(1, 1 + len(df_top100s)))
 
 def get_rows(df: pd.DataFrame, i: int, j: int = None) -> pd.DataFrame:
     if j is None:
@@ -31,3 +32,12 @@ def count(df: pd.DataFrame, column: str) -> pd.DataFrame:
     count_df = pd.DataFrame(list(counts.items()), columns=[column.capitalize(), 'Count'])
     count_df = count_df.sort_values(by='Count', ascending=False)
     return count_df
+
+
+def split_proportion(df: pd.DataFrame, col: str, split: int) -> dict:
+    above_split = len(df[df[col] > split])
+    below_split = len(df[df[col] <= split])
+    return {
+        'above_split': above_split,
+        'below_split': below_split
+    }
