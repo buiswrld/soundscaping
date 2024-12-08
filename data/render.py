@@ -3,6 +3,7 @@ from pandas import DataFrame, Series
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
+import numpy as np
 
 def show(df: DataFrame) -> None:
     if isinstance(df, Series):
@@ -50,4 +51,29 @@ def plot_key_frequency(data_dict: dict, title: str) -> None:
     plt.xlabel(title)
     plt.ylabel('Frequency')
     plt.xticks(rotation=45)
+    plt.show()
+
+def plot_year_frequency(df: DataFrame, date_col: str, year_range: range) -> None:
+    if pd.api.types.is_string_dtype(df[date_col]):
+        df['year'] = df[date_col].str[-4:].astype(int)
+    
+    year_counts = {year: 0 for year in year_range}
+
+    for year in df['year']:
+        if year in year_counts:
+            year_counts[year] += 1
+
+    year_counts_series = pd.Series(year_counts).sort_index()
+    plt.figure(figsize=(8, 4))
+    year_counts_series.plot(kind='bar', color='skyblue')
+    plt.title('Frequency of Song Release Years')
+    plt.xlabel('Year')
+    plt.ylabel('Frequency')
+    plt.xticks(rotation=45)
+    if len(year_range) > 50:
+        tick_positions = np.linspace(0, len(year_range) - 1, num=20, dtype=int)
+        tick_labels = [year_range[i] for i in tick_positions]
+        plt.xticks(tick_positions, tick_labels, rotation=45)
+    else:
+        plt.xticks(rotation=45)
     plt.show()
