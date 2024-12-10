@@ -9,11 +9,29 @@ from matplotlib.ticker import PercentFormatter
 class DataRenderer:
     def __init__(self):
         sns.set_palette('pastel')
+        plt.style.use('seaborn-v0_8-pastel')
+        plt.rcParams['font.family'] = 'Osaka'
+        plt.rcParams['font.size'] = 10
 
     def show(self, df: DataFrame) -> None:
         if isinstance(df, Series):
             df = df.to_frame().T 
         display(HTML(df.to_html(index=False)))
+
+    def split_show(self, df1, df2, title1, title2) -> None:
+        jsx = f"""
+        <div style="display: flex; justify-content: space-around;">
+            <div>
+                <h3>{title1}</h3>
+                {df1.to_html(index=False)}
+            </div>
+            <div>
+                <h3>{title2}</h3>
+                {df2.to_html(index=False)}
+            </div>
+        </div>
+        """
+        display(HTML(jsx))
 
     def plot(self, df: DataFrame, x_col: str, y_col: str, reverse=False) -> None:
 
@@ -83,12 +101,12 @@ class DataRenderer:
 
         # Setup
         plt.figure(figsize=(8, 4))
-        key_counts.plot(kind='bar', color='skyblue')
+        key_counts.plot(kind='bar')
 
         # Label
-        plt.title(f'Frequencies of {title}')
+        plt.title(f'{title} Frequency Distribution')
         plt.xlabel(title)
-        plt.ylabel('Frequency')
+        plt.ylabel('Count')
 
         # Format
         plt.xticks(rotation=45)
