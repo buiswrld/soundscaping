@@ -3,6 +3,10 @@
 
 A project dedicated to analyzing music trends & characteristics with the sole purpose of identifying the aspects that contribute to a chart-topping hit song
 
+To get started, visit a consolidated report of my findings at `results.ipynb`
+
+For a deeper dive into the data, with little organization but many thoughts and initial discoveries, visit `exploration.ipynb`
+
 ## Sourced Data
 
 **AOTY Top 5000**: Contains 5000 user-rated albums from Album of the Year (AOTY) as of 2024.
