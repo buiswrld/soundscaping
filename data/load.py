@@ -25,10 +25,17 @@ class DataLoader:
     def get_col(self, df: pd.DataFrame, col: str) -> pd.DataFrame:
         return df[col]
 
-    def filter(self, df: pd.DataFrame, column: str, value, contains = False) -> pd.DataFrame:
-        if contains:
-            return df[df[column].str.contains(value)]
-        return df[df[column] == value]
+
+    def filter(self, df: pd.DataFrame, column: str, value, contains=False) -> pd.DataFrame:
+        if isinstance(value, str):
+            value = value.lower()
+            if contains:
+                return df[df[column].str.lower().str.contains(value, na=False)]
+            return df[df[column].str.lower() == value]
+        else:
+            if contains:
+                return df[df[column].str.contains(value, na=False)]
+            return df[df[column] == value]
 
     def count_occurrences(self, df: pd.DataFrame, column: str, value) -> int:
         return df[df[column] == value].shape[0]
