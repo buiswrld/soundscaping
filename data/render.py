@@ -1,5 +1,6 @@
 from IPython.display import display, HTML
 from pandas import DataFrame, Series
+from matplotlib.ticker import PercentFormatter
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
@@ -30,16 +31,20 @@ class DataRenderer:
         plt.ylabel("Frequency")
         plt.show()
 
-    def plot_density(self, df: DataFrame, column: str, scaled=True) -> None:
+    def plot_density(self, df: DataFrame, column: str, title = None, scaled=True) -> None:
+        if not title:
+            title = column
         plt.figure(figsize=(8, 4))
-        sns.kdeplot(df[column], fill=True, color='skyblue')
-        plt.title(f'Frequency Distribution of {column}')
-        plt.xlabel(column)
+        sns.set_palette('pastel')
+        sns.kdeplot(df[column], fill=True, bw_adjust=0.1, cut=1)
+        plt.title(f'Frequency Distribution of {title}')
+        plt.xlabel(title)
         plt.ylabel('Density')
         if not scaled:
             plt.xlim(0, df[column].max()+10)
         else:
             plt.xlim(0, 100) 
+        plt.gca().yaxis.set_major_formatter(PercentFormatter(xmax=1))
         plt.show()
 
     def plot_key_frequency(self, data_dict: dict, title: str) -> None:
