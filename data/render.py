@@ -110,7 +110,7 @@ class DataRenderer:
         # Show
         plt.show()
 
-    # Reference: (11, 12)
+    # Reference: (11), (12)
     def plot_density(self, df: DataFrame, column: str, title=None, scaled=True) -> None:
         """
         Plots a density graph of the values in a column.
@@ -215,7 +215,7 @@ class DataRenderer:
         # Format
         plt.xticks(rotation=45)
 
-        # Reference: (14, 15)
+        # Reference: (14), (15)
         if len(year_range) > 50:
             tick_positions = np.linspace(0, len(year_range) - 1, num=20, dtype=int)
             tick_labels = [year_range[i] for i in tick_positions]
